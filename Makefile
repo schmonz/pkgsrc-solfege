@@ -1,6 +1,7 @@
-# $NetBSD: Makefile,v 1.87 2023/01/16 19:45:27 schmonz Exp $
+# $NetBSD: Makefile,v 1.93 2023/11/03 19:43:56 wiz Exp $
 
 DISTNAME=		solfege-3.23.4
+PKGREVISION=		4
 CATEGORIES=		audio
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=solfege/}
 
@@ -9,12 +10,11 @@ HOMEPAGE=		https://www.gnu.org/software/solfege/
 COMMENT=		Practice several musical ear training exercises
 LICENSE=		gnu-gpl-v3
 
-DEPENDS+=		${PYPKGPREFIX}-sqlite3-[0-9]*:../../databases/py-sqlite3
 DEPENDS+=		${PYPKGPREFIX}-gobject3-[0-9]*:../../devel/py-gobject3
 
-BUILD_DEPENDS+=		docbook-xsl-[0-9]*:../../textproc/docbook-xsl
-BUILD_DEPENDS+=		lilypond-[0-9]*:../../print/lilypond
-BUILD_DEPENDS+=		txt2man-[0-9]*:../../converters/txt2man
+TOOL_DEPENDS+=		docbook-xsl-[0-9]*:../../textproc/docbook-xsl
+TOOL_DEPENDS+=		lilypond-[0-9]*:../../print/lilypond
+TOOL_DEPENDS+=		txt2man-[0-9]*:../../converters/txt2man
 
 USE_PKGLOCALEDIR=	yes
 GNU_CONFIGURE=		yes
@@ -73,8 +73,8 @@ OGGPLAYER=	${PREFIX}/bin/ogg123
 post-install:
 	find ${DESTDIR}${PREFIX} -type d -name __pycache__ | xargs rm -rf
 
+.include "../../lang/python/batteries-included.mk"
 .include "../../lang/python/application.mk"
 .include "../../sysutils/desktop-file-utils/desktopdb.mk"
-.include "../../textproc/gnome-doc-utils/buildlink3.mk"
 .include "../../x11/gtk3/buildlink3.mk"
 .include "../../mk/bsd.pkg.mk"
